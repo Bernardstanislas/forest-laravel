@@ -184,11 +184,10 @@ class Bootstraper {
         $response = $client->request('POST', '/apimaps', $options);
 
         $body = json_decode($response->getBody(), true);
-        $message = $body['warning'];
 
-        if ($message) {
-          // TODO: Create a dedicated logger to improve the logging experience.
-          Logger::warning($message);
+        if (is_array($body) && key_exists('warning', $body) && $message = $body['warning']) {
+            // TODO: Create a dedicated logger to improve the logging experience.
+            Logger::warning($message);
         }
 
         $httpStatusCodesValid = array(200, 202, 204);
